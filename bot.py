@@ -67,15 +67,13 @@ def search_books_by_title(title, page=0):
             cover_url = f"https://covers.openlibrary.org/b/id/{cover_id}-M.jpg" if cover_id else "Обложка не найдена"
             book_key = book.get("key")
             read_url = f"https://openlibrary.org{book_key}" if book_key else "Ссылка для чтения недоступна"
-            download_url = f"https://openlibrary.org{book_key}/formats" if book_key else "Ссылка для скачивания недоступна"
 
             results['books'].append({
                 "title": title,
                 "author": author,
                 "year": year,
                 "cover_url": cover_url,
-                "read_url": read_url,
-                "download_url": download_url
+                "read_url": read_url
             })
         return results
     else:
@@ -108,15 +106,13 @@ def search_books_by_author(author, page=0):
             cover_url = f"https://covers.openlibrary.org/b/id/{cover_id}-M.jpg" if cover_id else "Обложка не найдена"
             book_key = book.get("key")
             read_url = f"https://openlibrary.org{book_key}" if book_key else "Ссылка для чтения недоступна"
-            download_url = f"https://openlibrary.org{book_key}/formats" if book_key else "Ссылка для скачивания недоступна"
 
             results['books'].append({
                 "title": title,
                 "author": author,
                 "year": year,
                 "cover_url": cover_url,
-                "read_url": read_url,
-                "download_url": download_url
+                "read_url": read_url
             })
         return results
     else:
@@ -134,8 +130,7 @@ def send_book_by_title(message, title, page=0):
                 f"Название: {book['title']}\n"
                 f"Автор: {book['author']}\n"
                 f"Год издания: {book['year']}\n"
-                f"Читать: {book['read_url']}\n"
-                f"Скачать: {book['download_url']}"
+                f"Читать: {book['read_url']}"
             )
             if book['cover_url'] != "Обложка не найдена":
                 bot.send_photo(message.chat.id, book['cover_url'])
@@ -160,8 +155,7 @@ def send_books_by_author(message, author, page=0):
                 f"Название: {book['title']}\n"
                 f"Автор: {book['author']}\n"
                 f"Год издания: {book['year']}\n"
-                f"Читать: {book['read_url']}\n"
-                f"Скачать: {book['download_url']}"
+                f"Читать: {book['read_url']}"
             )
             if book['cover_url'] != "Обложка не найдена":
                 bot.send_photo(message.chat.id, book['cover_url'])
@@ -173,7 +167,6 @@ def send_books_by_author(message, author, page=0):
             bot.send_message(message.chat.id, "Показать следующие 5 книг:", reply_markup=markup)
     else:
         bot.send_message(message.chat.id, "Книги не найдены.")
-
 
 # Обработчик для кнопок "Следующие 5 книг"
 @bot.callback_query_handler(func=lambda call: call.data.startswith("next_"))
