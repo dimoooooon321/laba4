@@ -4,7 +4,11 @@ from telebot import types
 import os
 import json
 
-bot = telebot.TeleBot('7815819391:AAG3fqzpv8k1CFmm6Y06wYb2uo2D_ZoiyIY')
+with open("config.json", "r") as file:
+    config = json.load(file)
+
+BOT_TOKEN = config["BOT_TOKEN"]
+bot = telebot.TeleBot(BOT_TOKEN)
 
 SETTINGS_FILE = "user_settings.json"
 
