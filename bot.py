@@ -8,7 +8,6 @@ bot = telebot.TeleBot('7815819391:AAG3fqzpv8k1CFmm6Y06wYb2uo2D_ZoiyIY')
 
 SETTINGS_FILE = "user_settings.json"
 
-# Загружаем настройки из файла при запуске
 if os.path.exists(SETTINGS_FILE):
     with open(SETTINGS_FILE, "r") as file:
         user_settings = json.load(file)
@@ -52,7 +51,7 @@ def help(message):
 
 @bot.message_handler(commands=["settings"])
 def settings(message):
-    chat_id = str(message.chat.id)  # Используем строковый ключ
+    chat_id = str(message.chat.id)
     current_limit = user_settings.get(chat_id, {}).get("book_limit", 5)
     msg = bot.send_message(
         chat_id,
@@ -63,7 +62,7 @@ def settings(message):
 
 
 def set_book_limit(message):
-    chat_id = str(message.chat.id)  # Используем строковый ключ
+    chat_id = str(message.chat.id)
     try:
         new_limit = int(message.text)
         if new_limit <= 0 or new_limit > 10:
@@ -174,5 +173,8 @@ def callback_next(call):
 
     send_books(call.message, query, page, search_type)
 
+@bot.message_handler(func=lambda message: True)
+def unknown_command(message):
+    bot.send_message(message.chat.id, "Извините, я не понял вашу команду. Введите /help, чтобы узнать доступные команды.")
 
 bot.polling(none_stop=True)
